@@ -1,0 +1,145 @@
+body {
+    overflow-x: hidden;
+    height: 100%;
+    background: #fafafa;
+    background: -webkit-linear-gradient(to right, #f6f8f8, #b9c3cc); 
+    background: linear-gradient(to right, #f3f6f6, #c0c7ce); 
+}
+
+a{
+    color: #398AB9 !important;
+}
+
+.card0 {
+    margin-top: 25px;
+}
+
+.card2 {
+    margin-right: 4rem;
+    margin-top: 4rem;
+}
+
+.logo {
+    width: 200px;
+    height: 100px;
+    margin-top: 20px;
+    margin-left: 35px;
+}
+
+.border-line {
+    border-right: 1px solid #EEEEEE;
+}
+
+.line {
+    height: 1px;
+    width: 45%;
+    background-color: #E0E0E0;
+    margin-top: 10px;
+}
+
+.or {
+    width: 10%;
+    font-weight: bold;
+}
+
+.text-sm {
+    font-size: 14px !important;
+}
+
+::placeholder {
+    color: #BDBDBD;
+    opacity: 1;
+    font-weight: 300;
+}
+
+:-ms-input-placeholder {
+    color: #BDBDBD;
+    font-weight: 300;
+}
+
+::-ms-input-placeholder {
+    color: #BDBDBD;
+    font-weight: 300;
+}
+
+input,
+textarea {
+    padding: 10px 12px 10px 12px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+input:focus,
+textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #1C658C;
+    outline-width: 0;
+}
+
+button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0;
+}
+
+a {
+    color: inherit;
+    cursor: pointer;
+}
+
+.bg-blue {
+    color: #fff;
+    background-color: #1C658C;
+}
+
+.login-button{
+    background-color: #1C658C; /* Green */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 12px 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.img-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+@media screen and (max-width: 991px) {
+    .logo {
+        margin-left: 0px;
+    }
+
+    .img-center{
+        display: none;
+    }
+
+    .border-line {
+        border-right: none;
+    }
+
+    .card2 {
+        border-top: 1px solid #EEEEEE !important;
+        margin: 0px 15px;
+    }
+}
+
+.navbar{
+    box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
+    background: #fff;
+}
