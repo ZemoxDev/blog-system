@@ -2,6 +2,8 @@
 
 This is a complete blog system using HTML, CSS, JavaScript and Bootstrap as the fronten and NodeJs, Express and MySQL as the backend.
 
+I made this as a technical demo and maybe in the future a open source system people can find use out of.
+
 The demo is found under https://blog.enzominkoley.com/
 
 ![Screenshot 2022-03-26 at 14-53-31 Home](https://user-images.githubusercontent.com/68021511/160242633-a819effd-cd1a-4067-bf9c-a8a0fa511547.png)
