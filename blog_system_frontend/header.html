@@ -13,11 +13,31 @@
             <li class="nav-item">
                 <a class="nav-link" href="login.html">Login</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="regsiter.html">Register</a>
-            </li>
         </ul>
 
     </div>
 
 </nav>
+
+<script>
+    var bearer = localStorage.getItem('bearer');
+
+    var statussettings = {
+        "url": "http://localhost:3000/api/status",
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Authorization": `Bearer ${bearer}`,
+            "Content-Type": "application/json"
+        },
+    };
+
+    $.ajax(statussettings).done(function (response) {
+        $('.navbar-nav').append(
+            '<li class="nav-item">' +
+                '<a class="nav-link" href="adminPanel/admin.html">Dashboard</a>' +
+            '</li>'
+        );
+    });
+
+</script>

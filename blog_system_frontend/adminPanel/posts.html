@@ -100,6 +100,8 @@
                     </div>
                 </div>
 
+                <p id="delete-status"> </p>
+
                 <div class="row post-section">
                     <div class="col-6">
                         <div class="card mb-4">
@@ -145,6 +147,8 @@
                             </div>
 
                         </div>
+
+                        <p id="categorie-delete"> </p>
                     </div>
                 </div>
             </div>
@@ -162,14 +166,12 @@
 
         $.ajax(settings1).done(function (response) {
             var newData = response.result;
-            console.log(newData);
 
             $.each (newData, function(bb) {
+
                 $('.categorie-content').append('<h6>' + newData[bb].name + '</h6>');
-
                 $('#categorie-select').append('<option>' + newData[bb].name + '</option>');
-
-                $('.categorie-delete').append('<h6><a onclick="removeCategorie();" href="javascript:void(0)" id=' + newData[bb].id + '> <i class="fa fa-close">' + '</i> </a></h6>');
+                $('.categorie-delete').append('<h6><a onclick="removeCategorie(this.id);" href="javascript:void(0)" id=' + newData[bb].id + '> <i class="fa fa-close">' + '</i> </a></h6>');
             });
         });
 
@@ -180,15 +182,14 @@
         };
 
         $.ajax(settings2).done(function (response) {
-            var newData = response.posts;
-            console.log(newData);
+            var newData2 = response.posts;
 
-            $.each (newData, function(bb) {
-                $('.posts-title').append('<h6>' + newData[bb].title + '</h6>');
+            $.each (newData2, function(bb) {
+                $('.posts-title').append('<h6>' + newData2[bb].title + '</h6>');
 
-                $('.edit-post').append('<a onclick="edit(this.id);" href="javascript:void(0);" id=' + newData[bb].id + '>' + "Edit Post" + '</a> <br />');
-                $('.delete-post').append('<a onclick="del(this.id);" href="javascript:void(0);" id=' + newData[bb].id + '>' + "Delete Post" + '</a> <br />');
-                $('.view-post').append('<a onclick="view(this.id);" href="javascript:void(0);" id=' + newData[bb].id + '>' + "View Post" + '</a> <br />');
+                $('.edit-post').append('<a onclick="edit(this.id);" href="javascript:void(0);" id=' + newData2[bb].id + '>' + "Edit Post" + '</a> <br />');
+                $('.delete-post').append('<a onclick="del(this.id);" href="javascript:void(0);" id=' + newData2[bb].id + '>' + "Delete Post" + '</a> <br />');
+                $('.view-post').append('<a onclick="view(this.id);" href="javascript:void(0);" id=' + newData2[bb].id + '>' + "View Post" + '</a> <br />');
             });
         });
 
@@ -215,13 +216,10 @@
             };
 
             $.ajax(settings).done(function (response) {
-
                 $('#post-status').text("Your Post was created!");
-                console.log(response);
-
+                location.reload(); 
             }).fail(function(jqXHR, textStatus){
                 $('#post-status').text("Post creation failed");
-
             });
         }
 
@@ -244,29 +242,92 @@
             };
 
             $.ajax(settings).done(function (response) {
-
                 $('#categorie-status').text("Your Categorie was created!");
-                console.log(response);
-
+                location.reload(); 
             }).fail(function(jqXHR, textStatus){
                 $('#categorie-status').text("Categorie creation failed");
-
             });
         }
 
         function edit(clicked_id) {
-            var editingId = clicked_id;
+            sessionStorage.setItem('editingPost', clicked_id);
 
             window.location.href = 'edit.html';
         }
 
         function del(clicked_id) {
             var delId = clicked_id;
+
+            var bearer = localStorage.getItem('bearer');
+
+            var settings = {
+                "url": "http://localhost:3000/api/deletepost",
+                "method": "DELETE",
+                "timeout": 0,
+                "headers": {
+                    "Authorization": `Bearer ${bearer}`,
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "id": delId
+                }),
+            };
+
+            $.ajax(settings).done(function (response) {
+                $('#delete-status').text("Post was deleted");
+                location.reload();
+            }).fail(function(jqXHR, textStatus){
+                $('#delete-status').text("Post deletion failed");
+            });
         }
 
         function view(clicked_id) {
-            var viewId = clicked_id;
+            sessionStorage.setItem('openedPost', clicked_id);
+
+            window.location.href = "/blog.html";
         }
+
+        function removeCategorie(clicked_id){
+            var delId = clicked_id;
+
+            var bearer = localStorage.getItem('bearer');
+
+            var settings = {
+                "url": "http://localhost:3000/api/deletecategorie",
+                "method": "DELETE",
+                "timeout": 0,
+                "headers": {
+                    "Authorization": `Bearer ${bearer}`,
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "id": delId
+                }),
+            };
+
+            $.ajax(settings).done(function (response) {
+                $('#categorie-delete').text("Category was deleted");
+                location.reload(); 
+            }).fail(function(jqXHR, textStatus){
+                $('#categorie-delete').text("Category deletion failed");
+            });
+        }
+
+        var bearer = localStorage.getItem('bearer');
+
+        var statussettings = {
+            "url": "http://localhost:3000/api/status",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": `Bearer ${bearer}`,
+                "Content-Type": "application/json"
+            },
+        };
+
+        $.ajax(statussettings).fail(function (response) {
+            window.location.href = "/index.html";
+        });
 
     </script>
 </body>

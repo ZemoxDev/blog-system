@@ -127,7 +127,7 @@ router.post('/post', userMiddleware.isLoggedIn, (req, res, next) => {
     db.query(
         `INSERT INTO posts (title, content, categorie, user, created) VALUES (${db.escape(req.body.title)}, 
         ${db.escape(req.body.content)}, ${db.escape(req.body.categorie)}, 
-        ${db.escape(req.userData.userId)}, now())`,
+        ${db.escape(req.userData.username)}, now())`,
         (err, result) => {
         if(err) {
             throw err;
@@ -137,6 +137,23 @@ router.post('/post', userMiddleware.isLoggedIn, (req, res, next) => {
         }
         return res.status(201).send({
             message: 'Post Created!',
+        });
+    });
+});
+
+//http://localhost:3000/api/singlepost
+router.put('/editpost', userMiddleware.isLoggedIn, (req, res, next) => {
+    db.query(`UPDATE posts SET title = ${db.escape(req.body.title)}, 
+    content = ${db.escape(req.body.content)}, categorie = ${db.escape(req.body.categorie)} 
+    WHERE id=${db.escape(req.body.id)}`, (err, result) => {
+        if(err) {
+            throw err;
+            return res.status(400).send({
+                message: err,
+            });
+        }
+        return res.status(201).send({
+            result,
         });
     });
 });
@@ -157,8 +174,9 @@ router.get('/getposts', (req, res, next) => {
 });
 
 //http://localhost:3000/api/singlepost
-router.get('/singlepost', (req, res, next) => {
-    db.query(`SELECT * FROM posts WHERE id=${db.escape(req.body.id)}`, (err, result) => {
+router.get('/singlepost/:id', (req, res, next) => {
+    const { id } = req.params;
+    db.query(`SELECT * FROM posts WHERE id=${id}`, (err, result) => {
         if(err) {
             throw err;
             return res.status(400).send({
@@ -166,14 +184,14 @@ router.get('/singlepost', (req, res, next) => {
             });
         }
         return res.status(201).send({
-            result
+            result,
         });
     });
 });
 
 //http://localhost:3000/api/deletepost
 router.delete('/deletepost', userMiddleware.isLoggedIn, (req, res, next) => {
-    db.query(`DELETE FROM posts WHERE title=${db.escape(req.body.title)}`, (err, result) => {
+    db.query(`DELETE FROM posts WHERE id=${db.escape(req.body.id)}`, (err, result) => {
         if(err) {
             throw err;
             return res.status(400).send({
@@ -233,6 +251,21 @@ router.delete('/deletecategorie', userMiddleware.isLoggedIn, (req, res, next) =>
     });
 });
 
+//http://localhost:3000/api/singlepost
+router.get('/singlecategorie', (req, res, next) => {
+    db.query(`SELECT * FROM posts WHERE categorie=${db.escape(req.body.categorie)}`, (err, result) => {
+        if(err) {
+            throw err;
+            return res.status(400).send({
+                message: err,
+            });
+        }
+        return res.status(201).send({
+            result,
+        });
+    });
+});
+
 //http://localhost:3000/api/getnotes
 router.get('/getnotes', (req, res, next) => {
     db.query(`SELECT * FROM notes`, (err, result) => {
@@ -279,6 +312,13 @@ router.delete('/deletenote', userMiddleware.isLoggedIn, (req, res, next) => {
             message: 'Note Deleted!',
         });
     });
+});
+
+//http://localhost:3000/api/status
+router.get('/status', userMiddleware.isLoggedIn, (req, res, next) => {
+    return res.status(200).send(
+        'User logged in!'
+    );
 });
 
 module.exports = router;

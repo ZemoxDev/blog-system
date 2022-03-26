@@ -62,11 +62,26 @@
 
         $.ajax(settings).done(function (response) {
             var newData = response.result;
-            console.log(newData);
 
             $.each (newData, function(bb) {
                 $('.users').append('<h4 class="py-2"> <a>' + newData[bb].username + '</a> </h4>');
             });
+        });
+
+        var bearer = localStorage.getItem('bearer');
+
+        var statussettings = {
+            "url": "http://localhost:3000/api/status",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": `Bearer ${bearer}`,
+                "Content-Type": "application/json"
+            },
+        };
+
+        $.ajax(statussettings).fail(function (response) {
+            window.location.href = "/index.html";
         });
 
     </script>

@@ -32,36 +32,7 @@
             <div class="row align-items-start">
                 <div class="col-lg-8 m-15px-tb">
                     <div class="row post-section">
-                        <div class="col-sm-6 post">
-                            <div class="blog-grid">
-                                <div class="blog-img">
-                                    <div class="date">
-                                        <span>04</span>
-                                        <label>FEB</label>
-                                    </div>
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                                <div class="blog-info">
-                                    <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <div class="btn-bar">
-                                        <a href="#" class="px-btn-arrow">
-                                            <span>Read More</span>
-                                            <i class="arrow"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="javascript:void(0)"> 1 </a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0)"> 2 </a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0)"> 3 </a></li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
 
@@ -80,16 +51,7 @@
                                     <h6>Hello, I'm<br> Enzo Minkoley </h6>
                                 </div>
                             </div>
-                            <p>I design and develop services for customers of all sizes, specializing in creating stylish, modern websites, web services and online stores</p>
-                        </div>
-                    </div>
-
-                    <div class="widget widget-post">
-                        <div class="widget-title">
-                            <h3>Trending Now</h3>
-                        </div>
-                        <div class="widget-body">
-
+                            <p> This is a blog system demo made with plain html, css and js in the frontend and nodejs and express as the backend. </p>
                         </div>
                     </div>
 
@@ -97,69 +59,7 @@
                         <div class="widget-title">
                             <h3>Latest Post</h3>
                         </div>
-                        <div class="widget-body">
-                            <div class="latest-post-aside media">
-                                <div class="lpa-left media-body">
-                                    <div class="lpa-title">
-                                        <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
-                                    </div>
-                                    <div class="lpa-meta">
-                                        <a class="name" href="#">
-                                            Rachel Roth
-                                        </a>
-                                        <a class="date" href="#">
-                                            26 FEB 2020
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="lpa-right">
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="latest-post-aside media">
-                                <div class="lpa-left media-body">
-                                    <div class="lpa-title">
-                                        <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
-                                    </div>
-                                    <div class="lpa-meta">
-                                        <a class="name" href="#">
-                                            Rachel Roth
-                                        </a>
-                                        <a class="date" href="#">
-                                            26 FEB 2020
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="lpa-right">
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="latest-post-aside media">
-                                <div class="lpa-left media-body">
-                                    <div class="lpa-title">
-                                        <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
-                                    </div>
-                                    <div class="lpa-meta">
-                                        <a class="name" href="#">
-                                            Rachel Roth
-                                        </a>
-                                        <a class="date" href="#">
-                                            26 FEB 2020
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="lpa-right">
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="latest-posts widget-body">
 
                         </div>
                     </div>
@@ -169,14 +69,8 @@
                             <h3>Categories</h3>
                         </div>
                         <div class="widget-body">
-                            <div class="nav tag-cloud">
-                                <a href="#">Design</a>
-                                <a href="#">Development</a>
-                                <a href="#">Travel</a>
-                                <a href="#">Web Design</a>
-                                <a href="#">Marketing</a>
-                                <a href="#">Research</a>
-                                <a href="#">Managment</a>
+                            <div class="categories nav tag-cloud">
+
                             </div>
                         </div>
                     </div>
@@ -191,20 +85,101 @@
     </section>
 
     <script>
-        var settings = {
+        var settings1 = {
             "url": "http://localhost:3000/api/getposts",
             "method": "GET",
             "timeout": 0,
         };
 
-        $.ajax(settings).done(function (response) {
-            var newData = response.posts;
-            console.log(newData);
+        $.ajax(settings1).done(function (response1) {
+            var newData1 = response1.posts;
 
-            $.each (newData, function(bb) {
-                $('#name').append('<p>' + newData[bb].categorie + '</p>');
+            $.each (newData1, function(bb) {
+                $('.post-section').append(
+                    '<div class="col-sm-6 post">' + 
+                        '<div class="blog-grid">' + 
+                            '<div class="blog-img">' +
+                                '<div class="date">' +
+                                    '<span>04</span>' +
+                                    '<label>FEB</label>' +
+                                '</div>' +
+                                '<a href="javascript:void(0)" id="' + newData1[bb].id + '" onclick="openBlog(this.id)">' +
+                                    '<img src="blog-example.jpg" title="" alt="">' +
+                                '</a>' +
+                            '</div>' +
+                            '<div class="blog-info">' +
+                                '<h5><a href="javascript:void(0)" id="' + newData1[bb].id + '" onclick="openBlog(this.id)">' + newData1[bb].title + '</a></h5>' +
+                                '<p>' + newData1[bb].content.substring(0, 70) + '...' + '</p>' +
+                                '<div class="btn-bar">' +
+                                    '<a href="javascript:void(0)" id="' + newData1[bb].id + '" onclick="openBlog(this.id)" class="px-btn-arrow">' +
+                                        '<span>Read More</span>' +
+                                        '<i class="arrow"></i>' +
+                                    '</a>' +
+                                '</div>' +
+                            '</div>' +
+                    '</div>'
+                );
+            });
+
+            $.each(newData1, function(i) {
+                if(i>2) return false;
+                $('.latest-posts').append(
+                    '<div class="latest-post-aside media">' +
+                        '<div class="lpa-left media-body">' +
+                            '<div class="lpa-title">' +
+                                '<h5><a href="javascript:void(0)" id="' + newData1[i].id + '" onclick="openBlog(this.id)">' + newData1[i].title + '</a></h5>' +
+                            '</div>' +
+                            '<div class="lpa-meta">' +
+                                '<p>' + newData1[i].content.substring(0, 40)  + '...' + '</p>' + 
+                                '<a class="name" href="javascript:void(0)" id="' + newData1[i].id + '" onclick="openBlog(this.id)">' +
+                                    + newData1[i].user +
+                                '</a>' +
+                                '<a class="date" href="javascript:void(0)" id="' + newData1[i].id + '" onclick="openBlog(this.id)">' +
+                                    '26 FEB 2020' +
+                                '</a>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="lpa-right">' +
+                            '<a href="javascript:void(0)" id="' + newData1[i].id + '" onclick="openBlog(this.id)">' +
+                                '<img src="blog-example.jpg" title="" alt="">' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' 
+                );
+            });
+
+            $('.post-section').append(
+                '<div class="col-12">' +
+                    '<ul class="pagination justify-content-center">' +
+                        '<li class="page-item"><a class="page-link" href="javascript:void(0)"> 1 </a></li>' +
+                        '<li class="page-item"><a class="page-link" href="javascript:void(0)"> 2 </a></li>' +
+                        '<li class="page-item"><a class="page-link" href="javascript:void(0)"> 3 </a></li>' +
+                    '</ul>' +
+                '</div>'
+            );
+        });
+
+        var settings2 = {
+            "url": "http://localhost:3000/api/getcategories",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings2).done(function (response2) {
+            var newData2 = response2.result;
+
+            $.each (newData2, function(bb) {
+                $('.categories').append(
+                    '<a href="#">' + newData2[bb].name + '</a>'
+                );
             });
         });
+
+        function openBlog(clicked_id){
+            sessionStorage.setItem('openedPost', clicked_id);
+
+            window.location.href = "/blog.html";
+        }
 
         $('.page-item').click(function(){
             $(this).addClass("active");

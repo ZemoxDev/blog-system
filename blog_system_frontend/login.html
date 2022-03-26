@@ -69,7 +69,7 @@
             <div class="bg-blue py-4">
                 <div class="row px-3"> <small class="ml-4 ml-sm-5">Copyright &copy; 2022. All rights reserved.</small>
 
-                    <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
+                    <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
                 </div>
             </div>
         </div>
@@ -96,14 +96,16 @@
 
             $.ajax(settings).done(function (response) {
                 $('#status').text("You are Logged In");
-                console.log(response);
 
                 var token = response.token;
                 localStorage.setItem('bearer', token);
 
+                setTimeout(function () {
+                    window.location.href = "adminPanel/admin.html";
+                }, 5000);
+
             }).fail(function(jqXHR, textStatus){
                 $('#status').text("Login Failed");
-
             });
         }
 

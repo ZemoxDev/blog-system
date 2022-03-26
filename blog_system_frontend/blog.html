@@ -34,54 +34,15 @@
             <div class="blog-info py-3 px-5">
                 <div class="widget-body py-3">
                     <div class="nav tag-cloud">
-                        <a href="#">Categorie 1</a>
-                        <a href="#">Categorie 2</a>
+                        <a id="category" href="#"></a>
                     </div>
                 </div>
-                <h2 class="pb-3"><a>Prevent 75% of visitors from google analytics</a></h2>
-                <p class="pb-3"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nostrum autem fugiat necessitatibus cum itaque facilis nobis dignissimos similique, veritatis iusto labore dicta cumque et tempore ratione est quae molestias? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore quaerat autem optio est fuga? Quis repudiandae aperiam est atque in, explicabo debitis quia ullam dolor officia. Doloremque, nisi libero! Commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Delectus voluptate dicta aperiam magnam, sit beatae quis, vitae dolorem magni, natus maiores earum cupiditate perspiciatis fugiat ipsum incidunt voluptas. Sapiente, praesentium. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit optio exercitationem omnis quas deserunt assumenda tempora ex temporibus. Temporibus maiores nostrum minima. Sunt inventore itaque tempora impedit nesciunt, molestias reiciendis. </p>
-                <p> Author: <a> Enzo Minkoley </a> </p>
+                <h2 class="pb-3"><a id="top-title"> </a></h2>
+                <p class="pb-3" id="top-content"> </p>
+                <p> Author: <a id="author"> </a> </p>
                 <div class="col">
-                    <div class="row post-section">
-                        <div class="col-sm-4 post">
-                            <div class="blog-grid">
-                                <div class="blog-img">
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                                <div class="blog-info">
-                                    <h6><a href="#">Prevent 75% of visitors from google analytics</a></h6>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="latest-posts row post-section">
 
-                        <div class="col-sm-4 post">
-                            <div class="blog-grid">
-                                <div class="blog-img">
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                                <div class="blog-info">
-                                    <h6><a href="#">Prevent 75% of visitors from google analytics</a></h6>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 post">
-                            <div class="blog-grid">
-                                <div class="blog-img">
-                                    <a href="#">
-                                        <img src="blog-example.jpg" title="" alt="">
-                                    </a>
-                                </div>
-                                <div class="blog-info">
-                                    <h6><a href="#">Prevent 75% of visitors from google analytics</a></h6>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -91,20 +52,74 @@
     </section>
 
     <script>
-        var settings = {
-            "url": `http://localhost:3000/api/post${id}`,
+        var id = sessionStorage.getItem('openedPost');
+
+        var settings1 = {
+            "url": `http://localhost:3000/api/singlepost/${id}`,
             "method": "GET",
             "timeout": 0,
         };
 
-        $.ajax(settings).done(function (response) {
-            var newData = response.posts;
-            console.log(newData);
+        $.ajax(settings1).done(function (response) {
+            var newData1 = response.result[0];
 
-            $.each (newData, function(bb) {
+            $('#top-title').text(newData1.title);
+            $('#top-content').text(newData1.content);
+            $('#author').text(newData1.user);
+            $('#category').text(newData1.categorie);
+        });
 
+        var settings2 = {
+            "url": "http://localhost:3000/api/getposts",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings2).done(function (response) {
+            var newData2 = response.posts;
+
+            $.each(newData2, function(i) {
+                if(i>2) return false;
+                $('.latest-posts').append(
+                    '<div class="col-sm-4 post">' +
+                        '<div class="blog-grid">' +
+                            '<div class="blog-img">' +
+                                '<a href="javascript:void(0)" id="' + newData2[i].id + '" onclick="openBlog(this.id)">' +
+                                    '<img src="blog-example.jpg" title="" alt="">' +
+                                '</a>' +
+                            '</div>' +
+                            '<div class="blog-info">' +
+                                '<h6><a href="javascript:void(0)" id="' + newData2[i].id + '" onclick="openBlog(this.id)">' + newData2[i].title + '</a></h6>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                );
             });
         });
+
+        var categorie = "Very Cool";
+
+        var settings3 = {
+            "url": `http://localhost:3000/api/singlecategorie`,
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "categorie": categorie,
+            }),
+        };
+
+        $.ajax(settings3).done(function (response) {
+            var newData3 = response.result;
+        });
+
+        function openBlog(clicked_id){
+            sessionStorage.setItem('openedPost', clicked_id);
+
+            window.location.href = "/blog.html";
+        }
 
     </script>
 </body>

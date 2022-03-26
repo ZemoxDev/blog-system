@@ -74,6 +74,8 @@
                         </div>
                     </div>
                 </div>
+
+                <p id="note-delete"> </p>
             </div>
             
         </div>
@@ -89,14 +91,13 @@
 
         $.ajax(settings).done(function (response) {
             var newData = response.result;
-            console.log(newData);
 
             $.each (newData, function(bb) {
                 $('.note-content').append('<h6>' + newData[bb].content + '</h6>');
 
                 $('.note-user').append('<h6><a>' + newData[bb].user + '</a></h6>');
 
-                $('.note-delete').append('<h6><a onclick="removeNote();" href="javascript:void(0)" id=' + newData[bb].id + '> <i class="fa fa-close">' + '</i> </a></h6>');
+                $('.note-delete').append('<h6><a onclick="removeNote(this.id);" href="javascript:void(0)" id=' + newData[bb].id + '> <i class="fa fa-close">' + '</i> </a></h6>');
             });
         });
 
@@ -119,15 +120,55 @@
             };
 
             $.ajax(settings).done(function (response) {
-
                 $('#note-status').text("Your Note was created! ");
-                console.log(response);
+                location.reload();
 
             }).fail(function(jqXHR, textStatus){
                 $('#note-status').text("Note creation failed");
-
             });
         }
+
+        function removeNote(clicked_id){
+            var delId = clicked_id;
+
+            var bearer = localStorage.getItem('bearer');
+
+            var settings = {
+                "url": "http://localhost:3000/api/deletenote",
+                "method": "DELETE",
+                "timeout": 0,
+                "headers": {
+                    "Authorization": `Bearer ${bearer}`,
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "id": delId
+                }),
+            };
+
+            $.ajax(settings).done(function (response) {
+                $('#note-delete').text("Note was deleted");
+                location.reload(); 
+            }).fail(function(jqXHR, textStatus){
+                $('#note-delete').text("Note deletion failed");
+            });
+        }
+
+        var bearer = localStorage.getItem('bearer');
+
+        var statussettings = {
+            "url": "http://localhost:3000/api/status",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": `Bearer ${bearer}`,
+                "Content-Type": "application/json"
+            },
+        };
+
+        $.ajax(statussettings).fail(function (response) {
+            window.location.href = "/index.html";
+        });
 
     </script>
 </body>

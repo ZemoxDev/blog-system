@@ -170,14 +170,16 @@
         };
 
         $.ajax(settings1).done(function (response) {
-            var newData = response.posts;
-            console.log(newData);
+            var newData1 = response.posts;
 
-            $('#post-number').text(newData.length);
+            $('#post-number').text(newData1.length);
 
-            $('.latest-posts').append('<h5> <a href="">' + newData[0].title + '</a> </h5>');
-            $('.latest-posts').append('<h5> <a href="">' + newData[1].title + '</a> </h5>');
-            $('.latest-posts').append('<h5> <a href="">' + newData[2].title + '</a> </h5>');
+            $.each(newData1, function(i) {
+                if(i>2) return false;
+                $('.latest-posts').append(
+                    $('.latest-posts').append('<h5> <a href="javascript:void(0)" id="' + newData1[i].id + '" onclick="openBlog(this.id)">' + newData1[i].title + '</a> </h5>')
+                );
+            });
         });
 
         var settings2 = {
@@ -187,18 +189,24 @@
         };
 
         $.ajax(settings2).done(function (response) {
-            var newData = response.result;
-            console.log(newData);
+            var newData2 = response.result;
 
-            $('#notes-number').text(newData.length);
+            $('#notes-number').text(newData2.length);
 
-            $('.latest-notes-content').append('<h6>' + newData[0].content + '</h6>');
-            $('.latest-notes-content').append('<h6>' + newData[1].content + '</h6>');
-            $('.latest-notes-content').append('<h6>' + newData[2].content + '</h6>');
+            $.each(newData2, function(i) {
+                if(i>2) return false;
+                $('.latest-notes-content').append(
+                    '<h6>' + 
+                        newData2[i].content +
+                    '</h6>'
+                );
 
-            $('.latest-notes-users').append('<h6><a>' + newData[0].user + '</a></h6>');
-            $('.latest-notes-users').append('<h6><a>' + newData[1].user + '</a></h6>');
-            $('.latest-notes-users').append('<h6><a>' + newData[2].user + '</a></h6>');
+                $('.latest-notes-users').append(
+                    '<h6><a>' + 
+                        newData2[i].user + 
+                    '</a></h6>'
+                );
+            });
         });
 
         var settings3 = {
@@ -208,18 +216,40 @@
         };
 
         $.ajax(settings3).done(function (response) {
-            var newData = response.result;
-            console.log(newData);
+            var newData3 = response.result;
+            
+            $('#categories-number').text(newData3.length);
 
-            $('#categories-number').text(newData.length);
-
-            $.each (newData, function(bb) {
-                $('.categorie-content').append('<h6>' + newData[bb].name + '</h6>');
+            $.each (newData3, function(bb) {
+                $('.categorie-content').append('<h6>' + newData3[bb].name + '</h6>');
             });
         });
 
+        function openBlog(clicked_id){
+            sessionStorage.setItem('openedPost', clicked_id);
+
+            window.location.href = "/blog.html";
+        }
+
         $('.page-item').click(function(){
             $(this).addClass("active");
+        });
+
+
+        var bearer = localStorage.getItem('bearer');
+
+        var statussettings = {
+            "url": "http://localhost:3000/api/status",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": `Bearer ${bearer}`,
+                "Content-Type": "application/json"
+            },
+        };
+
+        $.ajax(statussettings).fail(function (response) {
+            window.location.href = "/index.html";
         });
     </script>
 </body>

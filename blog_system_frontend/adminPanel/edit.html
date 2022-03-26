@@ -36,7 +36,7 @@
                 <div class="card mb-4">
 
                     <div class="card-header py-3">
-                        <h6 id="post-title"> </h6>
+                        <h6 id="post-title"> Edit Post </h6>
                     </div>
 
                     <div class="card-body py-3">
@@ -73,18 +73,38 @@
 
     <script>
 
-        var settings = {
-            "url": "http://localhost:3000/api/getposts",
+        var id = sessionStorage.getItem('editingPost');
+
+        var settings1 = {
+            "url": `http://localhost:3000/api/singlepost/${id}`,
             "method": "GET",
             "timeout": 0,
         };
 
-        $.ajax(settings).done(function (response) {
-            var newData = response.posts;
-            console.log(newData);
+        $.ajax(settings1).done(function (response) {
+            var newData1 = response.result[0];
+
+            $("#title").val(newData1.title);
+            $("#content").val(newData1.content);
+        });
+
+        var settings2 = {
+            "url": "http://localhost:3000/api/getcategories",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings2).done(function (response) {
+            var newData2 = response.result;
+
+            $.each (newData2, function(bb) {
+                $('#categorie-select').append('<option>' + newData2[bb].name + '</option>');
+            });
         });
 
         function edit(){
+            var id = sessionStorage.getItem('editingPost');
+
             var bearer = localStorage.getItem('bearer');
 
             var title = $("#title").val();
@@ -92,7 +112,7 @@
             var categorie = $("#categorie-select").val();
 
             var settings = {
-                "url": "http://localhost:3000/api/editpost",
+                "url": `http://localhost:3000/api/editpost`,
                 "method": "PUT",
                 "timeout": 0,
                 "headers": {
@@ -100,6 +120,7 @@
                     "Content-Type": "application/json"
                 },
                 "data": JSON.stringify({
+                    "id": id,
                     "title": title,
                     "content": content,
                     "categorie": categorie
@@ -107,15 +128,27 @@
             };
 
             $.ajax(settings).done(function (response) {
-
                 $('#edit-post-status').text("Your Post was edited!");
-                console.log(response);
-
             }).fail(function(jqXHR, textStatus){
                 $('#edit-post-status').text("Post editing failed");
-
             });
         }
+
+        var bearer = localStorage.getItem('bearer');
+
+        var statussettings = {
+            "url": "http://localhost:3000/api/status",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": `Bearer ${bearer}`,
+                "Content-Type": "application/json"
+            },
+        };
+
+        $.ajax(statussettings).fail(function (response) {
+            window.location.href = "/index.html";
+        });
 
     </script>
 </body>
